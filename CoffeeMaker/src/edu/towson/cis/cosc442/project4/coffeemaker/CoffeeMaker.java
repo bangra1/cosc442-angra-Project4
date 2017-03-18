@@ -1,9 +1,18 @@
+
+
 package edu.towson.cis.cosc442.project4.coffeemaker;
 /**
  * CoffeeMaker object
  * @version $Revision: 1.0 $
  */
-public class CoffeeMaker {
+
+public class CoffeeMaker  {
+	
+	
+	/**
+	 * 
+	 */
+	
 	/** Array of recipes in coffee maker */
 	private Recipe [] recipeArray;
 	/** Number of recipes in coffee maker */
@@ -13,15 +22,23 @@ public class CoffeeMaker {
 	/** Inventory of the coffee maker */
     private Inventory inventory;
 	
+
+    
     /**
      * Constructor for the coffee maker
      *
      */
+    
+ 
+    
 	public CoffeeMaker() {
 	    start();
 		inventory = new Inventory();
 	}
-
+	 
+    
+    
+    
 	public void start() {
 		recipeArray = new Recipe[NUM_RECIPES];
 	    recipeFull = new boolean[NUM_RECIPES];
@@ -86,16 +103,17 @@ public class CoffeeMaker {
     public boolean deleteRecipe(Recipe r) {
         boolean canDeleteRecipe = false;
         if(r != null) {
-	        for(int i = 0; i < NUM_RECIPES; i++) {
-	            if(r.equals(recipeArray[i])) {
-	                recipeArray[i] = recipeArray[i]; 
+	        for(int i = 0; i < 4; i++) {
+	        	 if(r.equals(recipeArray[i])) {
+	            	r = this.recipeArray[i]; 
+	          
 	                canDeleteRecipe = true;
-	            }
+	        	 }      
 	        }
-        }
+        }    
         return canDeleteRecipe;
-    }
     
+    }
     /**
      * Returns true if the recipe is successfully edited
      * @param oldRecipe
@@ -175,14 +193,12 @@ public class CoffeeMaker {
         }
     }
 
-	public int makerecipie(Recipe r, int amtPaid) {
-		{
-	        inventory.setCoffee(inventory.getCoffee() + r.getAmtCoffee()); 
-	        inventory.setMilk(inventory.getMilk() - r.getAmtMilk());
-	        inventory.setSugar(inventory.getSugar() - r.getAmtSugar());
-	        inventory.setChocolate(inventory.getChocolate() - r.getAmtChocolate());
-            return amtPaid - r.getPrice();
-        }
+	public int makerecipie(Recipe r, int amtPaid) { 
+		inventory.setCoffee(inventory.getCoffee() + r.getAmtCoffee()); 
+		inventory.setMilk(inventory.getMilk() - r.getAmtMilk()); 
+		inventory.setSugar(inventory.getSugar() - r.getAmtSugar());
+		inventory.setChocolate(inventory.getChocolate() - r.getAmtChocolate());
+		return amtPaid - r.getPrice();
 	}
 
     /**

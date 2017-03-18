@@ -5,14 +5,23 @@ package edu.towson.cis.cosc442.project4.coffeemaker;
  * @author Josh
  * @version $Revision: 1.0 $
  */
+
+
 public class Recipe {
-    private String name;
+    /**
+	 * 
+	 */
+
+	private String name;
     private int price;
     private int amtCoffee;
     private int amtMilk;
     private int amtSugar;
     private int amtChocolate;
     
+    
+
+
     /**
      * Method getAmtChocolate.
      * @return int

@@ -5,6 +5,9 @@ package edu.towson.cis.cosc442.project4.coffeemaker;
  * @author Josh
  * @version $Revision: 1.0 $
  */
+
+import java.util.Scanner;
+
 public class Inventory {
     
     private static int coffee;
@@ -119,15 +122,19 @@ public class Inventory {
         }
         return isEnough;
     }
-    
+   
+   
+    public String nextLine()
+    {
+		return null;}
     /**
      * Method toString.
      * @return String
      */
     public String toString() {
-    	return "Coffee: " + getCoffee() + "\n" +
-			"Milk: " + getMilk() + "\n" +
-			"Sugar: " + getSugar() + "\n" +
-			"Chocolate: " + getChocolate() + "\n";
+    	return "Coffee: " + getCoffee() + nextLine() +
+			"Milk: " + getMilk() + nextLine() +
+			"Sugar: " + getSugar() + nextLine() +
+			"Chocolate: " + getChocolate() + nextLine();
     }
 }
