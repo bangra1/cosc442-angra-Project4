@@ -6,7 +6,7 @@ package edu.towson.cis.cosc442.project4.coffeemaker;
  * @version $Revision: 1.0 $
  */
 
-import java.util.Scanner;
+
 
 public class Inventory {
     
