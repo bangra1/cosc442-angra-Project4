@@ -1,821 +1,330 @@
-
 package edu.towson.cis.cosc442.project4.coffeemaker;
 
-import org.junit.*;
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
+
 
 /**
- * The class <code>CoffeeMakerTest</code> contains tests for the class <code>{@link CoffeeMaker}</code>.
  *
- * @generatedBy CodePro at 3/19/17 7:58 PM
- * @author DELL
- * @version $Revision: 1.0 $
  */
-public class CoffeeMakerTest {
-	/**
-	 * Run the CoffeeMaker() constructor test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testCoffeeMaker_1()
-		throws Exception {
+public class CoffeeMakerTest extends TestCase {
+	private CoffeeMaker cm;
 
-		CoffeeMaker result = new CoffeeMaker();
+	private Recipe r1;
+	
+	private Inventory i;
 
-		// add additional test code here
-		assertNotNull(result);
+	public void setUp() {
+		cm = new CoffeeMaker();
+		i = cm.checkInventory();
+	}
+	
+	
+	
+	
+	
+	
+	public void testaddinventory(){
+		
+		cm.addinventorytrue(6, 1, 1, 1);
+		
+		assertEquals(6,i.getCoffee());
+		assertEquals(1,i.getMilk());
+		assertEquals(1,i.getSugar());
+		assertEquals(1,i.getChocolate());
+		
+		
+		
+	}
+	
+public void testcheckinventoryfalse(){
+		
+		cm.addinventorytrue(6, 1, 1, 4);
+		cm.checkInventory();
+		assertNotSame(3,i.getCoffee());
+		assertNotSame(0,i.getMilk());
+		assertNotSame(0,i.getSugar());
+		assertNotSame(1,i.getChocolate());
+	
 	}
 
-	/**
-	 * Run the boolean addInventory(int,int,int,int) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testAddInventory_1()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		int amtCoffee = 1;
-		int amtMilk = 1;
-		int amtSugar = 0;
-		int amtChocolate = -1;
+public void testcheckinventorytrue(){
+	i.setCoffee(6);
+	i.setMilk(1);
+	i.setChocolate(4);
+	i.setSugar(1);
+	
+	assertEquals("Coffee: " + i.getCoffee() + i.nextLine() +
+			"Milk: " + i.getMilk() + i.nextLine() +
+			"Sugar: " + i.getSugar() + i.nextLine() +
+			"Chocolate: " + i.getChocolate() + i.nextLine()
+		
+			,i.toString());
+	
 
-		boolean result = fixture.addInventory(amtCoffee, amtMilk, amtSugar, amtChocolate);
+}
 
-		// add additional test code here
-		assertEquals(false, result);
+public void testinventorynegative(){
+	
+	i.setCoffee(-5);
+	i.setChocolate(-2);
+	i.setMilk(-4);
+	i.setSugar(-3);
+	assertSame(0,i.getCoffee());
+	assertSame(0,i.getMilk());
+assertSame(0,i.getSugar());
+	assertSame(0,i.getChocolate());
+
+}
+
+public void testaddinventorytrue(){
+	
+	
+	assertTrue(cm.addInventory(0, 0, 0, 0));}
+
+public void testaddinventoryfalse(){
+	assertFalse(cm.addInventory(-1, -1, -1, -1));
+	assertFalse(cm.addInventory(10, -1, -1, -1));	
+	assertFalse(cm.addInventory(10, -1, 10, -1));
+	assertFalse(cm.addInventory(10, -1, 10, 10));
+	assertFalse(cm.addInventory(10, 10, -1, 10));
+	assertFalse(cm.addInventory(10, 10, 10, -1));	
+	}
+	
+public void testmakepurchase(){
+		
+		cm.addinventorytrue(6, 1, 1, 6);
+		
+		r1 = new Recipe();
+		r1.setName("Coffee");
+		r1.setPrice(50);
+		r1.setAmtCoffee(6);
+		r1.setAmtMilk(1);
+		r1.setAmtSugar(1);
+		r1.setAmtChocolate(3);
+		cm.addRecipe(r1);
+		cm.makeCoffee(r1,50);
+		
+		
+		
+		assertEquals(0,cm.makerecipie(r1,50),0.001);
 	}
 
-	/**
-	 * Run the boolean addInventory(int,int,int,int) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testAddInventory_2()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		int amtCoffee = 1;
-		int amtMilk = 1;
-		int amtSugar = 0;
-		int amtChocolate = 1;
+public void testpurchasemoneyless(){
+	cm.addinventorytrue(6, 1, 1, 6);
+	
+	r1 = new Recipe();
+	r1.setName("Coffee");
+	r1.setPrice(50);
+	r1.setAmtCoffee(6);
+	r1.setAmtMilk(1);
+	r1.setAmtSugar(1);
+	r1.setAmtChocolate(0);
+	cm.addRecipe(r1);
+	
+	assertEquals(40,cm.makeCoffee(r1,40),0.001);
+	
+	
+	
+}
 
-		boolean result = fixture.addInventory(amtCoffee, amtMilk, amtSugar, amtChocolate);
+public void testingredient(){
+	
+	
+	r1 = new Recipe();
+	r1.setName("Coffee");
+	r1.setPrice(50);
+	r1.setAmtCoffee(6);
+	r1.setAmtMilk(1);
+	r1.setAmtSugar(1);
+	r1.setAmtChocolate(0);
+	cm.addRecipe(r1);
+	
+	assertEquals(50,cm.makeCoffee(r1,50),0.001);
+	
+	
+	
+}
 
-		// add additional test code here
-		assertEquals(true, result);
+
+
+	public void testAddRecipe1() {
+		r1 = new Recipe();
+		r1.setName("Coffee");
+		r1.setPrice(50);
+		r1.setAmtCoffee(6);
+		r1.setAmtMilk(1);
+		r1.setAmtSugar(1);
+		r1.setAmtChocolate(0);
+		
+		assertTrue(cm.addRecipe(r1));
+	}
+	
+	public void testAddRecipe2() {
+		r1 = new Recipe();
+		r1.setName("Coffee");
+		r1.setPrice(50);
+		r1.setAmtCoffee(6);
+		r1.setAmtMilk(1);
+		r1.setAmtSugar(1);
+		r1.setAmtChocolate(0);
+		
+		cm.addRecipe(r1);
+		
+		r1 = new Recipe();
+		r1.setName("Chocolate Milk ");
+		r1.setPrice(50);
+		r1.setAmtCoffee(0);
+		r1.setAmtMilk(1);
+		r1.setAmtSugar(1);
+		r1.setAmtChocolate(3);
+		
+		cm.addRecipe(r1);
+		
+		r1 = new Recipe();
+		r1.setName("Toffee Drink");
+		r1.setPrice(30);
+		r1.setAmtCoffee(5);
+		r1.setAmtMilk(1);
+		r1.setAmtSugar(4);
+		r1.setAmtChocolate(0);
+		
+		cm.addRecipe(r1);
+		
+		r1 = new Recipe();
+		r1.setName("Milk");
+		r1.setPrice(20);
+		r1.setAmtCoffee(0);
+		r1.setAmtMilk(1);
+		r1.setAmtSugar(1);
+		r1.setAmtChocolate(0);
+		
+		assertTrue(cm.addRecipe(r1));
+		
+		
+	}
+	
+
+	
+public void testAddRecipeFalse() {
+	r1 = new Recipe();
+		r1.setPrice(-1);
+		r1.setAmtCoffee(-2);
+		r1.setAmtMilk(-3);
+		r1.setAmtSugar(-4);
+		r1.setAmtChocolate(-5);	
+		
+assertEquals(0,r1.getPrice());
+assertEquals(0,r1.getAmtCoffee());
+assertEquals(0,r1.getAmtMilk());
+assertEquals(0,r1.getAmtSugar());
+assertEquals(0,r1.getAmtChocolate());
+
+
+}
+
+public void testCheckRecipeName() {
+	r1 = new Recipe();
+	    r1.setName("Coffee");
+		
+		
+assertEquals("Coffee",r1.toString());
+
+
+
+}
+	
+	
+	
+	public void testaddSamename() {
+		r1 = new Recipe();
+		r1.setName("Coffee");
+		r1.setPrice(50);
+		r1.setAmtCoffee(6);
+		r1.setAmtMilk(1);
+		r1.setAmtSugar(1);
+		r1.setAmtChocolate(0);
+		
+		cm.addRecipe(r1);
+		
+		r1 = new Recipe();
+		r1.setName("Coffee");
+		r1.setPrice(50);
+		r1.setAmtCoffee(6);
+		r1.setAmtMilk(1);
+		r1.setAmtSugar(1);
+		r1.setAmtChocolate(0);
+		
+		assertFalse(cm.addRecipe(r1));
 	}
 
-	/**
-	 * Run the boolean addInventory(int,int,int,int) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testAddInventory_3()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		int amtCoffee = -1;
-		int amtMilk = 1;
-		int amtSugar = 1;
-		int amtChocolate = 1;
-
-		boolean result = fixture.addInventory(amtCoffee, amtMilk, amtSugar, amtChocolate);
-
-		// add additional test code here
-		assertEquals(false, result);
+	public void testDeleteRecipe1() {
+		r1 = new Recipe();
+		r1.setName("Coffee");
+		r1.setPrice(50);
+		r1.setAmtCoffee(6);
+		r1.setAmtMilk(1);
+		r1.setAmtSugar(1);
+		r1.setAmtChocolate(0);
+		
+		cm.addRecipe(r1);
+		assertTrue(cm.deleteRecipe(r1));
 	}
 
-	/**
-	 * Run the boolean addInventory(int,int,int,int) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testAddInventory_4()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		int amtCoffee = 1;
-		int amtMilk = -1;
-		int amtSugar = 1;
-		int amtChocolate = 1;
-
-		boolean result = fixture.addInventory(amtCoffee, amtMilk, amtSugar, amtChocolate);
-
-		// add additional test code here
-		assertEquals(false, result);
-	}
-
-	/**
-	 * Run the boolean addInventory(int,int,int,int) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testAddInventory_5()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		int amtCoffee = 1;
-		int amtMilk = 1;
-		int amtSugar = 1;
-		int amtChocolate = 1;
-
-		boolean result = fixture.addInventory(amtCoffee, amtMilk, amtSugar, amtChocolate);
-
-		// add additional test code here
-		assertEquals(false, result);
-	}
-
-	/**
-	 * Run the boolean addRecipe(Recipe) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testAddRecipe_1()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe r = new Recipe();
-
-		boolean result = fixture.addRecipe(r);
-
-		// add additional test code here
-		assertEquals(true, result);
-	}
-
-	/**
-	 * Run the boolean addRecipe(Recipe) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testAddRecipe_2()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe r = new Recipe();
-
-		boolean result = fixture.addRecipe(r);
-
-		// add additional test code here
-		assertEquals(true, result);
-	}
-
-	/**
-	 * Run the boolean addRecipe(Recipe) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testAddRecipe_3()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe r = new Recipe();
-
-		boolean result = fixture.addRecipe(r);
-
-		// add additional test code here
-		assertEquals(true, result);
-	}
-
-	/**
-	 * Run the boolean addRecipe(Recipe) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testAddRecipe_4()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe r = new Recipe();
-
-		boolean result = fixture.addRecipe(r);
-
-		// add additional test code here
-		assertEquals(true, result);
-	}
-
-	/**
-	 * Run the void addinventorytrue(int,int,int,int) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testAddinventorytrue_1()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		int amtCoffee = 1;
-		int amtMilk = 1;
-		int amtSugar = 1;
-		int amtChocolate = 1;
-
-		fixture.addinventorytrue(amtCoffee, amtMilk, amtSugar, amtChocolate);
-
-		// add additional test code here
-	}
-
-	/**
-	 * Run the Inventory checkInventory() method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testCheckInventory_1()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-
-		Inventory result = fixture.checkInventory();
-
-		// add additional test code here
-		assertNotNull(result);
-		assertEquals("Coffee: 15nullMilk: 15nullSugar: 15nullChocolate: 15null", result.toString());
-		assertEquals(15, result.getMilk());
-		assertEquals(15, result.getSugar());
-		assertEquals(15, result.getChocolate());
-		assertEquals(15, result.getCoffee());
-		assertEquals(null, result.nextLine());
-	}
-
-	/**
-	 * Run the boolean checkifexists(Recipe) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testCheckifexists_1()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe r = new Recipe();
-
-		boolean result = fixture.checkifexists(r);
-
-		// add additional test code here
-		assertEquals(true, result);
-	}
-
-	/**
-	 * Run the boolean checkifexists(Recipe) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testCheckifexists_2()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe r = new Recipe();
-
-		boolean result = fixture.checkifexists(r);
-
-		// add additional test code here
-		assertEquals(true, result);
-	}
-
-	/**
-	 * Run the boolean checkifexists(Recipe) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testCheckifexists_3()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe r = new Recipe();
-
-		boolean result = fixture.checkifexists(r);
-
-		// add additional test code here
-		assertEquals(true, result);
-	}
-
-	/**
-	 * Run the boolean checktoadd(Recipe) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testChecktoadd_1()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe r = new Recipe();
-
-		boolean result = fixture.checktoadd(r);
-
-		// add additional test code here
-		assertEquals(true, result);
-	}
-
-	/**
-	 * Run the boolean checktoadd(Recipe) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testChecktoadd_2()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe r = new Recipe();
-
-		boolean result = fixture.checktoadd(r);
-
-		// add additional test code here
-		assertEquals(true, result);
-	}
-
-	/**
-	 * Run the boolean deleteRecipe(Recipe) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testDeleteRecipe_1()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe r = new Recipe();
-
-		boolean result = fixture.deleteRecipe(r);
-
-		// add additional test code here
-		assertEquals(false, result);
-	}
-
-	/**
-	 * Run the boolean deleteRecipe(Recipe) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testDeleteRecipe_2()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe r = new Recipe();
-
-		boolean result = fixture.deleteRecipe(r);
-
-		// add additional test code here
-		assertEquals(false, result);
-	}
-
-	/**
-	 * Run the boolean deleteRecipe(Recipe) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testDeleteRecipe_3()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe r = new Recipe();
-
-		boolean result = fixture.deleteRecipe(r);
-
-		// add additional test code here
-		assertEquals(false, result);
-	}
-
-	/**
-	 * Run the boolean deleteRecipe(Recipe) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testDeleteRecipe_4()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe r = null;
-
-		boolean result = fixture.deleteRecipe(r);
-
-		// add additional test code here
-		assertEquals(false, result);
-	}
-
-	/**
-	 * Run the boolean editRecipe(Recipe,Recipe) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testEditRecipe_1()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe oldRecipe = new Recipe();
+	
+	
+	public void testEditRecipe1() {
+		r1 = new Recipe();
+		r1.setName("Coffee");
+		r1.setPrice(50);
+		r1.setAmtCoffee(6);
+		r1.setAmtMilk(1);
+		r1.setAmtSugar(1);
+		r1.setAmtChocolate(0);
+		
+		cm.addRecipe(r1);
 		Recipe newRecipe = new Recipe();
-
-		boolean result = fixture.editRecipe(oldRecipe, newRecipe);
-
-		// add additional test code here
-		assertEquals(false, result);
+		newRecipe = r1;
+		r1.setName("Coffee");
+		r1.setPrice(50);
+		r1.setAmtCoffee(6);
+		r1.setAmtMilk(1);
+		r1.setAmtSugar(1);
+		r1.setAmtChocolate(0);
+	
+		assertTrue(cm.editRecipe(r1, newRecipe));
+	}
+	
+	
+public void testrecepiename(){
+	r1 = new Recipe();
+	r1.setName("Coffee");
+	r1.setPrice(50);
+	r1.setAmtCoffee(6);
+	r1.setAmtMilk(1);
+	r1.setAmtSugar(1);
+	r1.setAmtChocolate(0);
+	
+	cm.addRecipe(r1);
+    
+		
+		assertEquals(r1,cm.getRecipeForName("Coffee"));
+		
+		
 	}
 
-	/**
-	 * Run the boolean editRecipe(Recipe,Recipe) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testEditRecipe_2()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe oldRecipe = new Recipe();
-		Recipe newRecipe = new Recipe();
-
-		boolean result = fixture.editRecipe(oldRecipe, newRecipe);
-
-		// add additional test code here
-		assertEquals(false, result);
-	}
-
-	/**
-	 * Run the boolean editRecipe(Recipe,Recipe) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testEditRecipe_3()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe oldRecipe = new Recipe();
-		Recipe newRecipe = new Recipe();
-
-		boolean result = fixture.editRecipe(oldRecipe, newRecipe);
-
-		// add additional test code here
-		assertEquals(false, result);
-	}
-
-	/**
-	 * Run the boolean editRecipe(Recipe,Recipe) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testEditRecipe_4()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe oldRecipe = new Recipe();
-		Recipe newRecipe = new Recipe();
-
-		boolean result = fixture.editRecipe(oldRecipe, newRecipe);
-
-		// add additional test code here
-		assertEquals(false, result);
-	}
-
-	/**
-	 * Run the boolean editRecipe(Recipe,Recipe) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testEditRecipe_5()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe oldRecipe = new Recipe();
-		Recipe newRecipe = new Recipe();
-
-		boolean result = fixture.editRecipe(oldRecipe, newRecipe);
-
-		// add additional test code here
-		assertEquals(false, result);
-	}
-
-	/**
-	 * Run the Recipe getRecipeForName(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testGetRecipeForName_1()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		String name = "";
-
-		Recipe result = fixture.getRecipeForName(name);
-
-		// add additional test code here
-		assertNotNull(result);
-		assertEquals(null, result.toString());
-		assertEquals(null, result.getName());
-		assertEquals(0, result.getAmtChocolate());
-		assertEquals(0, result.getAmtCoffee());
-		assertEquals(0, result.getAmtMilk());
-		assertEquals(0, result.getPrice());
-		assertEquals(0, result.getAmtSugar());
-	}
-
-	/**
-	 * Run the Recipe getRecipeForName(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testGetRecipeForName_2()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		String name = "";
-
-		Recipe result = fixture.getRecipeForName(name);
-
-		// add additional test code here
-		assertNotNull(result);
-		assertEquals(null, result.toString());
-		assertEquals(null, result.getName());
-		assertEquals(0, result.getAmtChocolate());
-		assertEquals(0, result.getAmtCoffee());
-		assertEquals(0, result.getAmtMilk());
-		assertEquals(0, result.getPrice());
-		assertEquals(0, result.getAmtSugar());
-	}
-
-	/**
-	 * Run the Recipe getRecipeForName(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testGetRecipeForName_3()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		String name = "";
-
-		Recipe result = fixture.getRecipeForName(name);
-
-		// add additional test code here
-		assertNotNull(result);
-		assertEquals(null, result.toString());
-		assertEquals(null, result.getName());
-		assertEquals(0, result.getAmtChocolate());
-		assertEquals(0, result.getAmtCoffee());
-		assertEquals(0, result.getAmtMilk());
-		assertEquals(0, result.getPrice());
-		assertEquals(0, result.getAmtSugar());
-	}
-
-	/**
-	 * Run the Recipe getRecipeForName(String) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testGetRecipeForName_4()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		String name = "";
-
-		Recipe result = fixture.getRecipeForName(name);
-
-		// add additional test code here
-		assertNotNull(result);
-		assertEquals(null, result.toString());
-		assertEquals(null, result.getName());
-		assertEquals(0, result.getAmtChocolate());
-		assertEquals(0, result.getAmtCoffee());
-		assertEquals(0, result.getAmtMilk());
-		assertEquals(0, result.getPrice());
-		assertEquals(0, result.getAmtSugar());
-	}
-
-	/**
-	 * Run the Recipe[] getRecipes() method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testGetRecipes_1()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-
-		Recipe[] result = fixture.getRecipes();
-
-		// add additional test code here
-		assertNotNull(result);
-		assertEquals(4, result.length);
-		assertNotNull(result[0]);
-		assertEquals(null, result[0].toString());
-		assertEquals(null, result[0].getName());
-		assertEquals(0, result[0].getAmtChocolate());
-		assertEquals(0, result[0].getAmtCoffee());
-		assertEquals(0, result[0].getAmtMilk());
-		assertEquals(0, result[0].getPrice());
-		assertEquals(0, result[0].getAmtSugar());
-		assertNotNull(result[1]);
-		assertEquals(null, result[1].toString());
-		assertEquals(null, result[1].getName());
-		assertEquals(0, result[1].getAmtChocolate());
-		assertEquals(0, result[1].getAmtCoffee());
-		assertEquals(0, result[1].getAmtMilk());
-		assertEquals(0, result[1].getPrice());
-		assertEquals(0, result[1].getAmtSugar());
-		assertNotNull(result[2]);
-		assertEquals(null, result[2].toString());
-		assertEquals(null, result[2].getName());
-		assertEquals(0, result[2].getAmtChocolate());
-		assertEquals(0, result[2].getAmtCoffee());
-		assertEquals(0, result[2].getAmtMilk());
-		assertEquals(0, result[2].getPrice());
-		assertEquals(0, result[2].getAmtSugar());
-		assertNotNull(result[3]);
-		assertEquals(null, result[3].toString());
-		assertEquals(null, result[3].getName());
-		assertEquals(0, result[3].getAmtChocolate());
-		assertEquals(0, result[3].getAmtCoffee());
-		assertEquals(0, result[3].getAmtMilk());
-		assertEquals(0, result[3].getPrice());
-		assertEquals(0, result[3].getAmtSugar());
-	}
-
-	/**
-	 * Run the int makeCoffee(Recipe,int) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testMakeCoffee_1()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe r = new Recipe();
-		int amtPaid = 1;
-
-		int result = fixture.makeCoffee(r, amtPaid);
-
-		// add additional test code here
-		assertEquals(1, result);
-	}
-
-	/**
-	 * Run the int makeCoffee(Recipe,int) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testMakeCoffee_2()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe r = new Recipe();
-		int amtPaid = 1;
-
-		int result = fixture.makeCoffee(r, amtPaid);
-
-		// add additional test code here
-		assertEquals(1, result);
-	}
-
-	/**
-	 * Run the int makerecipie(Recipe,int) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testMakerecipie_1()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-		Recipe r = new Recipe();
-		int amtPaid = 1;
-
-		int result = fixture.makerecipie(r, amtPaid);
-
-		// add additional test code here
-		assertEquals(1, result);
-	}
-
-	/**
-	 * Run the void start() method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testStart_1()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-
-		fixture.start();
-
-		// add additional test code here
-	}
-
-	/**
-	 * Run the void start() method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Test
-	public void testStart_2()
-		throws Exception {
-		CoffeeMaker fixture = new CoffeeMaker();
-
-		fixture.start();
-
-		// add additional test code here
-	}
-
-	/**
-	 * Perform pre-test initialization.
-	 *
-	 * @throws Exception
-	 *         if the initialization fails for some reason
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@Before
-	public void setUp()
-		throws Exception {
-		// add additional set up code here
-	}
-
-	/**
-	 * Perform post-test clean-up.
-	 *
-	 * @throws Exception
-	 *         if the clean-up fails for some reason
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	@After
-	public void tearDown()
-		throws Exception {
-		// Add additional tear down code here
-	}
-
-	/**
-	 * Launch the test.
-	 *
-	 * @param args the command line arguments
-	 *
-	 * @generatedBy CodePro at 3/19/17 7:58 PM
-	 */
-	public static void main(String[] args) {
-		new org.junit.runner.JUnitCore().run(CoffeeMakerTest.class);
+public void testrecepienamewrong(){
+	r1 = new Recipe();
+	r1.setName("Coffee");
+	r1.setPrice(50);
+	r1.setAmtCoffee(6);
+	r1.setAmtMilk(1);
+	r1.setAmtSugar(1);
+	r1.setAmtChocolate(0);
+	
+	cm.addRecipe(r1);
+    
+		
+		assertNotSame(r1,cm.getRecipeForName("Coff"));
+				
 	}
 }

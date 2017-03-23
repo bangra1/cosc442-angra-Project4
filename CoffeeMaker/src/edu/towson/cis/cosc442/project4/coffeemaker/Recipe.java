@@ -140,9 +140,8 @@ public class Recipe {
         if(r.getName() == null) {
 	    	return false;
     	}	
-        if(this.name == null) {
-        	return false;
-        }
+      
+        
         if((this.name).equals(r.getName())) {
             return true;
         }
