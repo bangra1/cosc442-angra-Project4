@@ -76,6 +76,19 @@ assertSame(0,i.getSugar());
 
 }
 
+public void testinventoryzero(){
+	
+	i.setCoffee(0);
+	i.setChocolate(0);
+	i.setMilk(0);
+	i.setSugar(0);
+	assertSame(0,i.getCoffee());
+	assertSame(0,i.getMilk());
+assertSame(0,i.getSugar());
+	assertSame(0,i.getChocolate());
+
+}
+
 public void testaddinventorytrue(){
 	
 	
@@ -92,15 +105,15 @@ public void testaddinventoryfalse(){
 	
 public void testmakepurchase(){
 		
-		cm.addinventorytrue(6, 1, 1, 6);
+		cm.addinventorytrue(6, 2, 2, 6);
 		
 		r1 = new Recipe();
 		r1.setName("Coffee");
 		r1.setPrice(50);
-		r1.setAmtCoffee(6);
-		r1.setAmtMilk(1);
-		r1.setAmtSugar(1);
-		r1.setAmtChocolate(3);
+		r1.setAmtCoffee(2);
+		r1.setAmtMilk(2);
+		r1.setAmtSugar(2);
+		r1.setAmtChocolate(2);
 		cm.addRecipe(r1);
 		cm.makeCoffee(r1,50);
 		
@@ -115,15 +128,31 @@ public void testpurchasemoneyless(){
 	r1 = new Recipe();
 	r1.setName("Coffee");
 	r1.setPrice(50);
-	r1.setAmtCoffee(6);
+	r1.setAmtCoffee(1);
 	r1.setAmtMilk(1);
 	r1.setAmtSugar(1);
-	r1.setAmtChocolate(0);
+	r1.setAmtChocolate(1);
 	cm.addRecipe(r1);
 	
 	assertEquals(40,cm.makeCoffee(r1,40),0.001);
 	
 	
+	
+}
+
+public void testpurchasemoneymore(){
+	cm.addinventorytrue(6, 6, 6, 6);
+	
+	r1 = new Recipe();
+	r1.setName("Coffee");
+	r1.setPrice(50);
+	r1.setAmtCoffee(6);
+	r1.setAmtMilk(6);
+	r1.setAmtSugar(6);
+	r1.setAmtChocolate(6);
+	cm.addRecipe(r1);
+	
+	assertEquals(10,cm.makeCoffee(r1,60),0.001);
 	
 }
 
@@ -133,10 +162,10 @@ public void testingredient(){
 	r1 = new Recipe();
 	r1.setName("Coffee");
 	r1.setPrice(50);
-	r1.setAmtCoffee(6);
+	r1.setAmtCoffee(1);
 	r1.setAmtMilk(1);
 	r1.setAmtSugar(1);
-	r1.setAmtChocolate(0);
+	r1.setAmtChocolate(1);
 	cm.addRecipe(r1);
 	
 	assertEquals(50,cm.makeCoffee(r1,50),0.001);
@@ -145,7 +174,82 @@ public void testingredient(){
 	
 }
 
+public void testrecipe(){
+	
+	
+	r1 = new Recipe();
 
+
+	r1.setAmtCoffee(0);
+	r1.setAmtMilk(0);
+	r1.setAmtSugar(0);
+	r1.setAmtChocolate(0);
+	
+	assertEquals(0,r1.getAmtCoffee());
+	assertEquals(0,r1.getAmtMilk());
+	assertEquals(0,r1.getAmtSugar());
+	assertEquals(0,r1.getAmtChocolate());
+	
+}
+
+public void testrecipe2(){
+	
+	
+	i.setCoffee(-1);
+	i.setMilk(-1);
+	i.setSugar(-1);
+	i.setChocolate(-1);
+	
+	assertEquals(0,i.getCoffee());
+	assertEquals(0,i.getMilk());
+	assertEquals(0,i.getSugar());
+	assertEquals(0,i.getChocolate());
+	
+}
+
+public void testrecipe3(){
+	
+	
+	i.setCoffee(5);
+	i.setMilk(5);
+	i.setSugar(5);
+	i.setChocolate(5);
+	
+	assertEquals(5,i.getCoffee());
+	assertEquals(5,i.getMilk());
+	assertEquals(5,i.getSugar());
+	assertEquals(5,i.getChocolate());
+	
+}
+
+public void testmakerecipe(){
+	cm = new CoffeeMaker();
+	cm.addInventory(10, 10, 10, 10);
+	
+	r1 = new Recipe();
+	r1.setName("Coffee");
+	r1.setPrice(50);
+	r1.setAmtCoffee(6);
+	r1.setAmtMilk(1);
+	r1.setAmtSugar(1);
+	r1.setAmtChocolate(3);
+	cm.addRecipe(r1);
+	
+	cm.makeCoffee(r1,50);
+	assertEquals(4,i.getCoffee());
+	assertEquals(9,i.getMilk());
+	assertEquals(9,i.getSugar());
+	assertEquals(7,i.getChocolate());
+	
+}
+
+public void testAmount() {
+	r1 = new Recipe();
+	r1.setAmtChocolate(1);
+	r1.setAmtCoffee(1);
+	assertEquals(1,r1.getAmtChocolate());
+	assertEquals(1,r1.getAmtCoffee());
+}
 
 	public void testAddRecipe1() {
 		r1 = new Recipe();
@@ -154,7 +258,7 @@ public void testingredient(){
 		r1.setAmtCoffee(6);
 		r1.setAmtMilk(1);
 		r1.setAmtSugar(1);
-		r1.setAmtChocolate(0);
+		r1.setAmtChocolate(3);
 		
 		assertTrue(cm.addRecipe(r1));
 	}
@@ -194,11 +298,21 @@ public void testingredient(){
 		r1.setName("Milk");
 		r1.setPrice(20);
 		r1.setAmtCoffee(0);
-		r1.setAmtMilk(1);
-		r1.setAmtSugar(1);
+		r1.setAmtMilk(0);
+		r1.setAmtSugar(0);
 		r1.setAmtChocolate(0);
 		
-		assertTrue(cm.addRecipe(r1));
+cm.addRecipe(r1);
+		
+		r1 = new Recipe();
+		r1.setName("M");
+		r1.setPrice(20);
+		r1.setAmtCoffee(1);
+		r1.setAmtMilk(3);
+		r1.setAmtSugar(1);
+		r1.setAmtChocolate(1);
+		
+		assertFalse(cm.addRecipe(r1));
 		
 		
 	}
@@ -232,8 +346,24 @@ assertEquals("Coffee",r1.toString());
 
 
 }
+
+/*public void testCheckRecipeName1() {
+	r1 = new Recipe();
+	r1.setName("Coffee");
+	r1.setPrice(50);
+	r1.setAmtCoffee(6);
+	r1.setAmtMilk(1);
+	r1.setAmtSugar(1);
+	r1.setAmtChocolate(0);
 	
-	
+	cm.addRecipe(r1);	    
+		
+assertFalse(r1.getName(),r1.equals("Co"));
+
+
+
+}*/
+
 	
 	public void testaddSamename() {
 		r1 = new Recipe();
@@ -242,7 +372,7 @@ assertEquals("Coffee",r1.toString());
 		r1.setAmtCoffee(6);
 		r1.setAmtMilk(1);
 		r1.setAmtSugar(1);
-		r1.setAmtChocolate(0);
+		r1.setAmtChocolate(3);
 		
 		cm.addRecipe(r1);
 		
@@ -325,6 +455,22 @@ public void testrecepienamewrong(){
     
 		
 		assertNotSame(r1,cm.getRecipeForName("Coff"));
+				
+	}
+
+public void testrecepiename1(){
+	r1 = new Recipe();
+	r1.setName("Coffee");
+	r1.setPrice(50);
+	r1.setAmtCoffee(6);
+	r1.setAmtMilk(1);
+	r1.setAmtSugar(1);
+	r1.setAmtChocolate(0);
+	
+	cm.addRecipe(r1);
+    
+		
+		assertFalse(r1.getName(),r1.equals("Cof"));
 				
 	}
 }
